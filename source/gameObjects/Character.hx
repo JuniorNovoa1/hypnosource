@@ -1702,6 +1702,7 @@ class Character extends FNFSprite
 				characterData.camOffsetY = -250;
 				characterData.zoomOffset = 0.00;
 
+
 			case 'mike-bed':
 				atlasCharacter = new FlxAnimate(x, y, Paths.getPath('images/characters/atlases/mikebed', TEXT));
 				atlasCharacter.anim.addByAnimIndices('idle', indicesContinueAmount(12), 24);

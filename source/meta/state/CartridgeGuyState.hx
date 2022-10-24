@@ -118,7 +118,6 @@ class CartridgeGuyState extends MusicBeatState
 
 								if (!FlxG.save.data.mainMenuOptionsUnlocked.contains('freeplay')) FlxG.save.data.mainMenuOptionsUnlocked.push('freeplay');
 								if (!FlxG.save.data.mainMenuOptionsUnlocked.contains('pokedex')) FlxG.save.data.mainMenuOptionsUnlocked.push('pokedex');
-								if (!FlxG.save.data.mainMenuOptionsUnlocked.contains('gallery')) FlxG.save.data.mainMenuOptionsUnlocked.push('gallery');
 
 								FlxG.save.flush();
 							}

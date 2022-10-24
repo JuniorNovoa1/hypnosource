@@ -323,6 +323,33 @@ class GameOverSubstate extends MusicBeatSubState
 					add(confirm);
 					confirm.playAnim('idle');					
 				};
+			case 'cold-gold' | 'ponyta' | 'pico' | 'glitchy-red':
+				var retry:FNFSprite = new FNFSprite(280, 200);	
+				retry.frames = Paths.getSparrowAtlas('characters/death/bygone/Retry');
+				retry.animation.addByPrefix('idle', "Retry instance 1", 24, false);				
+				add(retry);
+				retry.playAnim('idle');
+				retry.animation.finishCallback = function(name:String) {
+					if (name == 'idle')
+						retry.playAnim('idle');
+				}
+				retry.scale.set(0.65, 0.65);
+				retry.alpha = 0.0;	
+				
+				var camHUD = new FlxCamera();
+				FlxG.cameras.add(camHUD);
+				FlxCamera.defaultCameras = [camHUD];
+				FlxG.sound.playMusic(Paths.music(loopSoundName));	
+				FlxTween.tween(retry, {alpha: 1.0}, 1.0, {ease: FlxEase.linear});		
+				
+				retry.cameras = [camHUD];
+								
+				deathEnd = function(){
+					remove(retry);
+					FlxG.sound.play(Paths.sound(endSoundName));	
+					FlxTween.tween(retry, {alpha: 0.0}, 1.0, {ease: FlxEase.linear});	
+				};
+
 			case 'buryman-death':
 				var camHUD = new FlxCamera();
 				FlxG.camera.zoom = 6;

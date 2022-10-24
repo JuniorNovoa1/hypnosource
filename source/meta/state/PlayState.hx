@@ -342,7 +342,6 @@ class PlayState extends MusicBeatState
 	public var camPos:FlxPoint;
 
 	public static var bronzongMechanic:Bool = false;
-	var blurAmount:Float = 0.0;
 
 	// Shop Related Stuff
 	var moneyBag:FlxSprite;
@@ -441,6 +440,21 @@ class PlayState extends MusicBeatState
 		displayRating('sick', 'early', true);
 		popUpCombo(true);
 		//
+
+		var mechDiff:String = Init.trueSettings.get('Mechanics');
+		switch (mechDiff)
+		{
+			case 'pussy':
+				gameplayMode = PUSSY_MODE;
+
+			case 'normal':
+				gameplayMode = NORMAL;
+
+			case 'hell':
+				gameplayMode = HELL_MODE;
+		}
+
+
 
 		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
 		boyfriend = new Boyfriend();
@@ -2135,7 +2149,7 @@ class PlayState extends MusicBeatState
 
 			// copy paste im lazy
 			var pendulumOffset:Array<Int> = [];
-			if (dadOpponent.curCharacter == 'hypno')
+			if (dadOpponent.curCharacter == 'hypno' && pendulum != null)
 			{
 				switch (dadOpponent.animation.name)
 				{
@@ -2296,8 +2310,11 @@ class PlayState extends MusicBeatState
 								pendulumOffset[1] = 416;
 						}
 				}
-				pendulum.x = dadOpponent.x + pendulumOffset[0];
-				pendulum.y = dadOpponent.y + pendulumOffset[1];
+				if (pendulum != null)
+					{
+						pendulum.x = dadOpponent.x + pendulumOffset[0];
+						pendulum.y = dadOpponent.y + pendulumOffset[1];
+					}
 			}
 
 			// spawn in the notes from the array
@@ -2952,8 +2969,7 @@ class PlayState extends MusicBeatState
 		if (bronzongMechanic && direction == 4)
 			{
 				trace('BELL NOTE MISSED');
-				health -= 0.3;
-				blurAmount = 1.0;
+				health -= 0.35;
 			}
 
 		decreaseCombo(popMiss);
@@ -3122,12 +3138,9 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		Discord.changePresence('Heard you like snooping around Discord', 'Real classy.', iconRPC);
-		/*
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails;
 		if (health > 0)
 			Discord.changePresence(displayRPC, detailsSub, iconRPC);
-		*/
 	}
 
 	var animationsPlay:Array<Note> = [];
@@ -3694,6 +3707,15 @@ class PlayState extends MusicBeatState
 				Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			}
 			
+			if (curSong == 'Shitno')
+				FlxG.save.data.itemsPurchased.push('Broken Vinyl');
+
+			if (curSong == 'Lost-Cause' && isStoryMode)
+				{
+					Main.switchState(this, new CartridgeGuyState());
+					return;
+				}
+
 			if (!isStoryMode)
 				Main.switchState(this, new ShopState());
 			else {

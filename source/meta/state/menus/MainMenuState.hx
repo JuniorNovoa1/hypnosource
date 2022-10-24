@@ -61,7 +61,6 @@ class MainMenuState extends MusicBeatState
 		'freeplay',
 		'credits',
 		'pokedex',
-		'gallery',
 		'options'
 	];
 
@@ -208,12 +207,9 @@ class MainMenuState extends MusicBeatState
 								case 'pokedex':
 									Main.switchState(this, new PokedexState());
 								case 'options':
-									openSubState(new OptionsMenuState());
-									// Main.switchState(this, new OptionsMenuState());
+									Main.switchState(this, new OptionsMenuState());
 								case 'credits':
 									Main.switchState(this, new CreditsMenuState());
-								case 'gallery':
-									Main.switchState(this, new GalleryState());
 								default:
 									canSelect = true;
 							}
@@ -230,7 +226,7 @@ class MainMenuState extends MusicBeatState
 
 		if (Main.hypnoDebug && FlxG.keys.justPressed.SEVEN) //DEBUG UNLOCKS ALL PROGRESSION
 			{
-				FlxG.save.data.mainMenuOptionsUnlocked = ['story', 'freeplay', 'credits', 'pokedex', 'gallery', 'options'];
+				FlxG.save.data.mainMenuOptionsUnlocked = ['story', 'freeplay', 'credits', 'pokedex', 'options'];
 				FlxG.save.data.cartridgesOwned = ['HypnoWeek', 'LostSilverWeek', 'GlitchWeek'];
 				FlxG.save.data.unlockedSongs = ['safety-lullaby', 'left-unchecked', 'lost-cause', 'frostbite', 'insomnia', 'monochrome', 'missingno', 'brimstone', 'amusia', 'dissension', 'purin', 'death-toll', 'isotope', 'bygone-purpose', 'pasta-night', 'shinto', 'shitno'];
 			}

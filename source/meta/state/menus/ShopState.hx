@@ -1198,6 +1198,12 @@ class ShopState extends MusicBeatState
 						if (!FlxG.save.data.cartridgesOwned.contains('LostSilverWeek'))
 							FlxG.save.data.cartridgesOwned.push('LostSilverWeek');
 					}
+				case 'Pokemon Red':
+					{
+						if (!FlxG.save.data.cartridgesOwned.contains('GlitchWeek'))
+							FlxG.save.data.cartridgesOwned.push('GlitchWeek');
+						unlockSongCutscene(itemArray[curItemSelected].songUnlock);
+					}
 				case 'Broken Vinyl':
 					{
 						if (!FlxG.save.data.buyVinylFirstTime)

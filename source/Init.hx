@@ -132,6 +132,13 @@ class Init extends FlxState
 			NOT_FORCED,
 			['none', 'Deuteranopia', 'Protanopia', 'Tritanopia']
 		],
+		'Mechanics' => [
+			'normal',
+			Selector,
+			'Choose the diffiuclty of the mechanics. (MAY NOT APPLY TO ALL SONGS)',
+			NOT_FORCED,
+			['pussy', 'normal', 'hell']
+		],
 		"Clip Style" => ['stepmania', Selector, "Chooses a style for hold note clippings; StepMania: Holds under Receptors; FNF: Holds over receptors", NOT_FORCED, 
 			['StepMania', 'FNF']],
 		"UI Skin" => ['default', Selector, 'Choose a UI Skin for judgements, combo, etc.', NOT_FORCED, ''],
