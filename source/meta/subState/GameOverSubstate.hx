@@ -502,8 +502,10 @@ class GameOverSubstate extends MusicBeatSubState
 				var deathCam:FlxCamera = new FlxCamera(0, 0, 768, 672);
 				FlxG.cameras.reset(deathCam);
 				
+				#if !ignoreBrokenShaders
 				var crt:ShaderFilter = new ShaderFilter(new GraphicsShader("", Paths.shader('crt')));
 				deathCam.setFilters([crt]);
+				#end
 				// lmao
 				deathCam.x += (FlxG.width / 2 - deathCam.width / 2);
 				deathCam.y += (FlxG.height / 2 - deathCam.height / 2);
@@ -544,8 +546,10 @@ class GameOverSubstate extends MusicBeatSubState
 				var totalElapsed:Float = 0;
 				updateFunction = function() {
 					totalElapsed += FlxG.elapsed;
+					#if !ignoreBrokenShaders
 					if (crt != null)
 						crt.shader.data.time.value = [totalElapsed];
+					#end
 
 					if (miniChar.y > gameoverGraphic.y + gameoverGraphic.height) {
 						if (gameoverGraphic.animation.curAnim.name != 'moving' 
@@ -622,6 +626,7 @@ class GameOverSubstate extends MusicBeatSubState
 					FlxG.cameras.add(camHUD);
 					FlxCamera.defaultCameras = [camHUD];
 
+					#if !ignoreBrokenShaders
 					var shaderabb:ShaderFilter = new ShaderFilter(new GraphicsShader("", Paths.shader('aberration')));
 					camHUD.setFilters([shaderabb]);
 					if (shaderabb != null)
@@ -629,6 +634,7 @@ class GameOverSubstate extends MusicBeatSubState
 							shaderabb.shader.data.aberration.value = [0.001];
 							shaderabb.shader.data.effectTime.value = [0.001];
 						}
+					#end
 
 					var shitno:FlxSprite = new FlxSprite().loadGraphic(Paths.image('jumpscares/Shitno'));	
 					shitno.cameras = [camHUD];											
@@ -650,12 +656,14 @@ class GameOverSubstate extends MusicBeatSubState
 									{	
 										shitno.visible = !shitno.visible;
 										totalAbb += 0.15;
+										#if !ignoreBrokenShaders
 										if (shaderabb != null)
 											{
 												shaderabb.shader.data.aberration.value = [totalAbb];
 												shaderabb.shader.data.effectTime.value = [totalAbb];
 
 											}
+										#end
 									},4);
 							});
 

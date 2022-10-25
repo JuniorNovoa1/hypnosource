@@ -28,6 +28,7 @@ import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import meta.state.menus.*;
 import openfl.Assets;
+import openfl.Lib;
 
 using StringTools;
 
@@ -278,6 +279,16 @@ class TitleState extends MusicBeatState
 					FlxG.save.data.notFirstTime = true;
 					FlxG.save.flush();
 				}
+
+				if (FlxG.save.data.ShaderWarning == null)
+					FlxG.save.data.ShaderWarning = true;
+
+				if (FlxG.save.data.ShaderWarning) {
+					FlxG.save.data.ShaderWarning = false;
+					FlxG.save.flush();
+					Lib.application.window.alert("99% of shaders have been removed,\nThis is because Apple hasn't updated openfl in years.\n\nYou will never see this message again.", 'IMPORTANT ABOUT SHADERS');
+				}
+
 				Main.switchState(this, new MainMenuState());
 				// }
 			});

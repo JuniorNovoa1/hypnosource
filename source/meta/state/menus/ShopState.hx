@@ -168,10 +168,12 @@ class ShopState extends MusicBeatState
 			FlxG.save.flush();
 		}
 
+		#if !ignoreBrokenShaders
 		glitchingno = new FlxGraphicsShader("", Paths.shader('glitch'));
 		chromaticAberration = new ShaderFilter(new GraphicsShader("", Paths.shader('shopShader')));
 		chromaticAberration.shader.data.effectTime.value = [aberrateTimeValue];
 		FlxG.camera.setFilters([chromaticAberration]);
+		#end
 
 		// initialize shop music
 		FlxG.sound.playMusic(Paths.music('FreeplayMenu'), 0, true);
@@ -867,6 +869,7 @@ class ShopState extends MusicBeatState
 				//
 				switch (item.text.toLowerCase())
 				{
+					#if !ignoreBrokenShaders
 					case 'missingno' | 'isotope':
 						// trace('m,,issingno hveorv');
 						for (j in item.members)
@@ -875,7 +878,7 @@ class ShopState extends MusicBeatState
 						glitchValue += (fakeElapsed / (1 / 15)) / 15;
 						glitchingno.data.prob.value = [0.25 + Math.abs(Math.sin((fakeElapsed * 2) * Math.PI))];
 						glitchingno.data.time.value = [glitchValue / 2];
-
+					#end
 					// freeplayActivePortrait.shader = glitchingno;
 					default:
 						for (j in item.members)
@@ -949,7 +952,7 @@ class ShopState extends MusicBeatState
 						camera.shake(0.005, 0.06);
 
 						// auto unlock 
-						/*
+						///*
 						if (Main.hypnoDebug) {
 							var selectedLock:LockSprite = null;
 							for (j in grpLocked)
@@ -962,7 +965,7 @@ class ShopState extends MusicBeatState
 							}
 							if (selectedLock != null)
 								selectedLock.unlock();
-						}*/
+						}//*/
 					}
 				}
 			}
@@ -985,6 +988,7 @@ class ShopState extends MusicBeatState
 					//
 					if (zoomIn)
 					{
+						#if !ignoreBrokenShaders
 						if (chromaticAberration != null)
 						{
 							if (aberrateTimeValue < 1.35)
@@ -1002,6 +1006,11 @@ class ShopState extends MusicBeatState
 									gotoSong();
 							}
 						}
+						#else
+						selectedItem.alpha = FlxMath.lerp(selectedItem.alpha, 0, realElapsed);
+						if (selectedItem.alpha <= 0.01)
+							gotoSong();
+						#end
 					}
 				}
 				//

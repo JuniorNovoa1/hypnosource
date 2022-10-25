@@ -352,8 +352,9 @@ class Controls extends FlxActionSet
 	public function checkByName(name:Action):Bool
 	{
 		#if debug
+		/*
 		if (!byName.exists(name))
-			throw 'Invalid name: $name';
+			throw 'Invalid name: $name'; */ //crashes game lol
 		#end
 		return byName[name].check();
 	}

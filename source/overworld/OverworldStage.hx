@@ -111,6 +111,7 @@ class OverworldStage extends FlxState {
 		FlxG.camera.follow(bf, LOCKON, 1);
 		FlxG.camera.deadzone = FlxRect.get((FlxG.camera.width - bf.width) / 2, (FlxG.camera.height - bf.height) / 2, bf.width - 8, bf.height);
 
+        #if !ignoreBrokenShaders
         glitchSprite = new ShaderFilter(new GraphicsShader("", Paths.shader('glitch')));
         glitchSprite.shader.data.prob.value = [0.0];
         glitchSprite.shader.data.time.value = [0.0];
@@ -120,6 +121,7 @@ class OverworldStage extends FlxState {
         gameCam.setFilters([gameboyFilter, glitchSprite]);
         // uiCam.setFilters([gameboyFilter]);
         gameboyShader.data.intensity.value = [1.0];
+        #end
 
         pointTo = new FlxPoint(320 + 8, 192 + 8);
     }
@@ -165,8 +167,10 @@ class OverworldStage extends FlxState {
             new FlxTimer().start(0.1, moveForward);
         } else {
             var shaderGlitchAmount = Math.max((1/distanceToPoint - Math.abs(Math.sin(sinAmount) / 16)) * 4, 0);
+            #if !ignoreBrokenShaders
             glitchSprite.shader.data.prob.value = [shaderGlitchAmount];
             glitchSprite.shader.data.time.value = [fullElapsed / 16];
+            #end
         }
         super.update(elapsed);
     }

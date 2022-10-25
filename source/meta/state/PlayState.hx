@@ -151,10 +151,12 @@ class PlayState extends MusicBeatState
 	public var bygoneAlexis:Boyfriend;
 	public static var alexis:Bool = false;
 
+	#if !ignoreBrokenShaders
 	var missingnoVHS:GraphicsShader;
 	var pastanightCRT:ShaderFilter;
 	var missingnoGlitch:GraphicsShader;
 	var brimstoneShader:GraphicsShader;
+	#end
 
 	public var feraligatr:FlxSprite;
 	var behindGroup:FlxTypedGroup<FlxSprite>;
@@ -1284,9 +1286,11 @@ class PlayState extends MusicBeatState
 	public var desaturateAmplitude(default, set):Float = 0;
 	function set_desaturateAmplitude(value:Float):Float {
 		desaturateAmplitude = value;
+		#if !ignoreBrokenShaders
 		stageBuild.forEach(function(sprite:FlxSprite) {
 			sprite.shader.data.amplitude.value = [desaturateAmplitude];
 		});
+		#end
 		return value;
 	}
 	@:isVar
@@ -1295,9 +1299,11 @@ class PlayState extends MusicBeatState
 	function set_desaturateAmount(value:Float):Float
 	{
 		desaturateAmount = value;
+		#if !ignoreBrokenShaders
 		stageBuild.forEach(function(sprite:FlxSprite) {
 			sprite.shader.data.desaturationAmount.value = [desaturateAmount];
 		});
+		#end
 		return value;
 	}
 	var brimstoneDistortionTime:Float = 0;
@@ -1353,10 +1359,14 @@ class PlayState extends MusicBeatState
 	public function setupGlitchShader() {
 		if (!glitchSet) {
 			// /*
+			#if !ignoreBrokenShaders
 			missingnoGlitch = new GraphicsShader("", Paths.shader('glitch'));
 			shaderCatalog.push(new ShaderFilter(missingnoGlitch));
+			#end
 			missingnoIndex = shaderCatalog.length - 1;
+			#if !ignoreBrokenShaders
 			camGame.setFilters(shaderCatalog);
+			#end
 			// */
 			glitchSet = true;
 		}
@@ -1370,8 +1380,10 @@ class PlayState extends MusicBeatState
 	{
 		if (!frostSet)
 		{
+			#if !ignoreBrokenShaders
 			frostbiteShader = new ShaderFilter(new GraphicsShader("", Paths.shader('snowfall')));
 			vignetteCam.setFilters([frostbiteShader]);
+			#end
 			frostSet = true;
 		}
 	}
@@ -1386,7 +1398,9 @@ class PlayState extends MusicBeatState
 		if (canChangeIntensity) {
 			snowIntensity = value;
 			trace(value);
+			#if !ignoreBrokenShaders
 			frostbiteShader.shader.data.intensity.value = [snowIntensity];
+			#end
 		}
 		return snowIntensity;
 	}
@@ -1402,7 +1416,9 @@ class PlayState extends MusicBeatState
 		{
 			snowAmount = value;
 			trace(value);
+			#if !ignoreBrokenShaders
 			frostbiteShader.shader.data.amount.value = [Std.int(snowAmount)];
+			#end
 		}
 		return snowAmount;
 	}
@@ -1415,8 +1431,10 @@ class PlayState extends MusicBeatState
 	public var brimstoneDistortion(default, set):Float = 0;
 	function set_brimstoneDistortion(value:Float):Float {
 		if (canRise) {
+			#if !ignoreBrokenShaders
 			brimstoneDistortion = value;
 			brimstoneShader.data.distort.value = [value];
+			#end
 		}
 		return brimstoneDistortion;
 	}
@@ -1425,10 +1443,14 @@ class PlayState extends MusicBeatState
 	{
 		if (!brimstoneSet) {
 			// /*
+			#if !ignoreBrokenShaders
 			brimstoneShader = new GraphicsShader("", Paths.shader('camEffects'));
 			shaderCatalog.push(new ShaderFilter(brimstoneShader));
+			#end
 			brimstoneIndex = shaderCatalog.length - 1;
+			#if !ignoreBrokenShaders
 			camGame.setFilters(shaderCatalog);
+			#end
 			// */
 			brimstoneSet = true;
 		}
@@ -1441,8 +1463,10 @@ class PlayState extends MusicBeatState
 		missingnoZoomIntensity = newValue;
 		if (missingnoZoomIn) {
 			if (shaderCatalog.length > 0) {
+				#if !ignoreBrokenShaders
 				var newShader:ShaderFilter = cast(shaderCatalog[0], ShaderFilter);
 				newShader.shader.data.intensityChromatic.value = [missingnoZoomIntensity];
+				#end
 			}
 		}
 		return newValue;
@@ -2078,21 +2102,27 @@ class PlayState extends MusicBeatState
 				if (deadstone)
 					gameoverBrimstoneShake();
 
+				#if !ignoreBrokenShaders
 				if (vignette != null)
 					vignette.shader.data.time.value = [Conductor.songPosition / (Conductor.stepCrochet * 8)];
+				#end
 
 				curFrame++;
 			}
 
 			if (brimstoneDesaturate) {
+				#if !ignoreBrokenShaders
 				brimstoneDistortionTime -= ((elapsed / (1 / 60)) * 0.0125) / 2;
 				stageBuild.forEach(function(sprite:FlxSprite) {
 					sprite.shader.data.distortionTime.value = [brimstoneDistortionTime];
 				});
+				#end
 			}
 
+			#if !ignoreBrokenShaders
 			if (frostSet) 
 				frostbiteShader.shader.data.time.value = [Conductor.songPosition / (Conductor.stepCrochet * 8)];
+			#end
 			
 			var lerpVal = (elapsed * 2.4) * cameraSpeed;
 			if (!brimstoneShaking) 

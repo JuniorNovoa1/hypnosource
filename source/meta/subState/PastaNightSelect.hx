@@ -28,8 +28,10 @@ class PastaNightSelect extends MusicBeatSubState {
 		selectCam = new FlxCamera(0, 0, 768, 672);
 		FlxG.cameras.reset(selectCam);
 		
+		#if !ignoreBrokenShaders
 		crt = new ShaderFilter(new GraphicsShader("", Paths.shader('crt')));
 		selectCam.setFilters([crt]);
+		#end
 		// lmao
 		selectCam.x += (FlxG.width / 2 - selectCam.width / 2);
 		selectCam.y += (FlxG.height / 2 - selectCam.height / 2);
@@ -72,8 +74,10 @@ class PastaNightSelect extends MusicBeatSubState {
 	public var totalElapsed:Float = 0;
     override public function update(elapsed:Float) {
 		totalElapsed += elapsed;
+		#if !ignoreBrokenShaders
 		if (crt != null)
 			crt.shader.data.time.value = [totalElapsed];
+		#end
 		
         if (controls.UI_LEFT_P)
 			updateSelection(selector - 1);
