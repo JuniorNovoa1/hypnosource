@@ -965,6 +965,8 @@ class ShopState extends MusicBeatState
 							}
 							if (selectedLock != null)
 								selectedLock.unlock();
+								
+							gotoSong();
 						}//*/
 					}
 				}
@@ -1448,7 +1450,7 @@ class ShopState extends MusicBeatState
 		}
 		else if (!subMenu)
 		{
-			shopSelector.y = 524 + (shopSelection * 27);
+			shopSelector.y = 524 + (curItemSelected * 27);
 			trace(shopSelection);
 		}
 	}

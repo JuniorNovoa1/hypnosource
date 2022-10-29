@@ -29,5 +29,5 @@ function eventFunction(params) {
 }
 
 function initFunction(params) {
-	PlayState.instance.setupBrimstoneShaders();
+	//
 }

@@ -5,15 +5,6 @@ function eventFunction(params) {
         PlayState.instance.dadStrums.visible = false;
         trace('the no 1');
 
-        if (PlayState.instance.shaderCatalog.length > 0) {
-            var newShader:ShaderFilter = PlayState.instance.shaderCatalog[0];
-            if (PlayState.staticValues.get('cantGlitch') == null 
-            || PlayState.staticValues.get('cantGlitch') == false) {
-                newShader.shader.data.prob.value = [0.25];
-            }
-            newShader.shader.data.time.value = [Conductor.songPosition / 1000];
-        }
-
         var isDownscroll = FlxG.random.bool(50);
         var boyfriendStrums:Strumline = PlayState.instance.boyfriendStrums;
         boyfriendStrums.downscroll = isDownscroll;
@@ -41,5 +32,5 @@ function eventFunction(params) {
 }
 
 function initFunction(params) {
-	PlayState.instance.setupGlitchShader();
+    //
 }

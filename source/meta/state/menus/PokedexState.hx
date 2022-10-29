@@ -87,7 +87,9 @@ class PokedexState extends MusicBeatState {
     override public function create() {
         super.create();
 
+        #if !ignoreBrokenShaders
         glitch = new ShaderFilter(new GraphicsShader("", Paths.shader('glitch')));
+        #end
 
         trace('maxSelect: ' + maxSelect);
 
@@ -268,8 +270,10 @@ class PokedexState extends MusicBeatState {
         if (inSubMenu && altBg.y > 7) altBg.y -= elapsed / (0.05 / 60);
         if (!inSubMenu && altBg.y < 579) altBg.y += elapsed / (0.05 / 60);
 
+        #if !ignoreBrokenShaders
         glitch.shader.data.prob.value = [0.01];
         glitch.shader.data.time.value = [elapsedTime * 2];
+        #end
     }
 
     function moveDexSel(diff:Int = 0)
@@ -346,8 +350,10 @@ class PokedexState extends MusicBeatState {
             {
                 switch (dexArray[curSelect].name)
                 {
+					#if !ignoreBrokenShaders
                     case "Missingno" | "Glitchy Red":
                             FlxG.camera.setFilters([glitch]);
+                    #end
                     default:
                             FlxG.camera.setFilters([]);
                 }
