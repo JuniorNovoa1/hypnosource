@@ -147,7 +147,7 @@ class Main extends Sprite
 		#if debug
 		hypnoDebug = true;
 		#else
-		hypnoDebug = true;
+		hypnoDebug = false;
 		#end
 
 		// default game FPS settings, I'll probably comment over them later.

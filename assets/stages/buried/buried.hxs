@@ -11,7 +11,6 @@ var realGengar:Bool = false;
 var gengarDisplacement:Array<Float> = [-50, -100];
 
 var gengarInvis:Float = 0.0;
-var gameboyFilter:GraphicsShader;
 
 var pukeCooldown:Int = 80;
 var currentGB:Float = 0.0;
@@ -48,19 +47,6 @@ function onCreate() {
 
 function onCreatePost() {
     PlayState.instance.pausePortraitRevealed[1] = false;
-
-    /* 
-    try pushing it to the main thing, if this works that work I did like 6 months ago will actually be useful
-    im hoping it does because of how stupid shadercatalog was, I don't know why I implemented that, so giving it some use is good I guess
-    */
-    gameboyFilter = new GraphicsShader("", Paths.shader('brimstone/brimstoneCamEffects'));
-    var filterFilter:ShaderFilter = new ShaderFilter(gameboyFilter);
-    PlayState.instance.shaderCatalog.insert(0, filterFilter);
-    PlayState.camGame.setFilters(PlayState.instance.shaderCatalog);
-    for (hud in PlayState.instance.allUIs)
-        hud.setFilters([filterFilter]);
-    PlayState.dialogueHUD.setFilters([filterFilter]);
-    gameboyFilter.data.intensity.value = [0.0];
 
     // IT FUCKING WOOOOORKSSSS
 

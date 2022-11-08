@@ -2,10 +2,6 @@ var groundNoShadow:FlxSprite;
 var startGlitching:Bool = false;
 var endGlitching:Bool = false;
 
-var backgroundShader:FlxGraphicsShader;
-var missingnoShader:FlxGraphicsShader;
-var boyfrebShader:FlxGraphicsShader;
-
 var background:FlxSprite;
 var ground:FlxSprite;
 var glitchAmount:Float = 0;
@@ -59,26 +55,12 @@ function onCreate() {
 function onCreatePost() {
 	PlayState.instance.camPos.y += 80;
 	PlayState.dadOpponent.x += 66;
-
-	boyfrebShader = new FlxGraphicsShader("", Paths.shader('missingno/individualGlitches'));
-	boyfrebShader.data.binaryIntensity.value = [1000];
-	PlayState.boyfriend.shader = boyfrebShader;
 }
 
 function onEvent(event) {
 	switch (event) {
 		case 'Missingno Tempo Change':
 			startGlitching = true;
-
-			backgroundShader = new FlxGraphicsShader("", Paths.shader('glitch'));
-			backgroundShader.data.prob.value = [0];
-			background.shader = backgroundShader;
-
-			missingnoShader = new FlxGraphicsShader("", Paths.shader('missingno/individualGlitches'));
-			missingnoShader.data.binaryIntensity.value = [0];
-			
-			PlayState.dadOpponent.shader = missingnoShader;
-			ground.shader = missingnoShader;
 			PlayState.staticValues.set('cantGlitch', true);
 
 			FlxTween.num(0, 1, (Conductor.stepCrochet * 56) / 1000, {ease: FlxEase.cubeInOut, onUpdate: function(tween:FlxTween){
@@ -87,31 +69,14 @@ function onEvent(event) {
 				endGlitching = true;
 			}});
 		case 'Missingno':
-			if (endGlitching)
-				backgroundShader.data.time.value = [Conductor.songPosition / 1000];
+		    //no more
 		case 'Missingno Play Random Shit':
-			if (randomShitTimer == null || randomShitTimer.active == false || randomShitTimer.finished) {
-				randomShitTimer = new FlxTimer().start(Conductor.crochet / 1000, function(timer:FlxTimer){
-					boyfrebShader.data.binaryIntensity.value = [1000];
-				});
-			} else
-				randomShitTimer.reset();
-			boyfrebShader.data.binaryIntensity.value = [1 / FlxG.random.int(1, 4)];
+			//
 	}
 }
 
 function onUpdate(elapsed) {
     groundNoShadow.visible = !PlayState.dadOpponent.visible;
 
-	if (startGlitching) {
-		backgroundShader.data.prob.value = [glitchAmount / 4];
-		if (!endGlitching)
-			backgroundShader.data.time.value = [(Math.floor((Conductor.songPosition / Conductor.crochet)) * Conductor.crochet) / 1000];
-		//
-		var newShader:ShaderFilter = PlayState.instance.shaderCatalog[0];
-    	newShader.shader.data.prob.value = [0.25 - (glitchAmount / 8)];
-		if (!endGlitching)
-			newShader.shader.data.time.value = [(Math.floor((Conductor.songPosition / Conductor.crochet)) * Conductor.crochet) / 1000];
-		missingnoShader.data.binaryIntensity.value = [(10 - ((Math.floor(glitchAmount / 20) * 20) * 9)) / 8];
-	}
+	//
 }

@@ -1678,7 +1678,6 @@ class Character extends FNFSprite
 				characterData.camOffsetX = -300;
 				characterData.camOffsetY = -85;
 				characterData.zoomOffset = 0.1;
-
 			case 'steven-fp':
 				frames = Paths.getSparrowAtlas('characters/steven/steven_phase_2');
 				animation.addByPrefix('idle', 'SR IDLE', 24, false);

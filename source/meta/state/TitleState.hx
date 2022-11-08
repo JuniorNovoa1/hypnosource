@@ -224,6 +224,24 @@ class TitleState extends MusicBeatState
 		// credGroup.add(credTextShit);
 	}
 
+	function resetData() {
+		FlxG.save.data.money = 0;
+		FlxG.save.data.mainMenuOptionsUnlocked = ['story', 'credits', 'options'];
+		FlxG.save.data.cartridgesOwned = ['HypnoWeek'];
+		FlxG.save.data.itemsPurchased = [];
+		FlxG.save.data.playedSongs = [];
+		FlxG.save.data.unlockedSongs = []; 
+		FlxG.save.data.queuedUnlocks = []; 
+		FlxG.save.data.doneUnlocks = [];
+		FlxG.save.data.freeplayFirstTime = false;
+		FlxG.save.data.buyVinylFirstTime = false;
+		FlxG.save.data.activatedPurin = false;
+
+		FlxG.save.data.ShaderWarning = false;
+		FlxG.save.data.ShaderWarningAmount = 0;
+		FlxG.save.flush();
+	}
+
 	var transitioning:Bool = false;
 
 	override function update(elapsed:Float)
@@ -248,6 +266,14 @@ class TitleState extends MusicBeatState
 			if (gamepad.justPressed.B)
 				pressedEnter = true;
 			#end
+		}
+
+		if (FlxG.keys.justPressed.R) {
+			resetData();
+			Lib.application.window.alert("You have reset your game data\nthe game will now restart.\n\nPort by JuniorNovoa.", 'DATA SHIT!');
+			new FlxTimer().start(1, function(tmr:FlxTimer) {
+				Sys.exit(0);
+			});
 		}
 
 		if (pressedEnter && !transitioning && skippedIntro)

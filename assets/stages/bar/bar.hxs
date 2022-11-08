@@ -5,8 +5,6 @@ var ben:FNFSprite;
 var doCrazyShit:Bool = false;
 var goldorgb:Bool = false;
 
-var filmGrain:ShaderFilter;
-
 function onCreate() {
     pastaBoppers = [];
     PlayState.defaultCamZoom = 0.7;
@@ -235,11 +233,6 @@ function onCreate() {
 	chair.setGraphicSize(Std.int(chair.width * (consistentSize * 0.75)));
 	chair.scrollFactor.set(0.9, 0.9);
 	// add(chair);
-
-	//filmGrain = new ShaderFilter(new GraphicsShader("", Paths.shader('filmgrain')));
-	//PlayState.camGame.setFilters([filmGrain]);
-	filmGrain = new ShaderFilter(new GraphicsShader("", Paths.shader('old')));
-	PlayState.camGame.setFilters([filmGrain]);
 }
 
 function onCreatePost() {
@@ -258,8 +251,6 @@ function onBeat(beat) {
 }
 
 function onUpdate(elapsed) {
-	filmGrain.shader.data.iTime.value = [Conductor.songPosition / 1000];
-	
 	var swagRect = FlxRect.weak(0, 0, saled.width, saled.height - 16);
 	saled.clipRect = swagRect;
 

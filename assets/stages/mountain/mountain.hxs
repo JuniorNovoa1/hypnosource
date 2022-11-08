@@ -7,7 +7,6 @@ var freakachuJumpscare:FlxSprite;
 var imgScaleCur:Float = 0.65;
 var imgScaleTarget:Float = 0.65;
 
-var aberrationShader:GraphicsShader;
 var abbCur:Float = 0.75;
 var abbTarget:Float = 0.75;
 
@@ -242,15 +241,6 @@ function onUpdate(elapsed)
 				imgScaleCur = FlxMath.lerp(imgScaleCur, imgScaleTarget, (elapsed / (1 / 120)) * 0.15);
 				freakachuJumpscare.scale.set(imgScaleCur, imgScaleCur);
 			}
-			
-		if (aberrationShader != null)
-			{
-				abbCur = FlxMath.lerp(abbCur, abbTarget, (elapsed / (1 / 120)) * 0.06);
-
-				aberrationShader.shader.data.aberration.value = [abbCur];
-				aberrationShader.shader.data.effectTime.value = [abbCur];
-				trace(abbCur);
-			}
 	}
 
 function onEvent(eventName) {
@@ -318,9 +308,6 @@ function onEvent(eventName) {
 			PlayState.instance.typhlosionUses = -1;
 			freakachuActive = false;
 			//blackScreenCover.visible = true;
-
-			aberrationShader = new ShaderFilter(new GraphicsShader("", Paths.shader('aberration')));
-			PlayState.dialogueHUD.setFilters([aberrationShader]);
 
 			new FlxTimer().start(10.12, function(tmr:FlxTimer)
 				{

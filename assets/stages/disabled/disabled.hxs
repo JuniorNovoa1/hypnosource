@@ -7,8 +7,6 @@ var plateR:FlxSprite;
 var background:FlxSprite;
 var background2:FlxSprite;
 var selectedBackground:Int = 0;
-var glitchPincushion:FlxGraphicsShader;
-
 var intensity:Float = 0.0125;
 
 var staticSprite:FlxSprite;
@@ -108,12 +106,6 @@ function onCreate() {
     staticOverlay.frames = Paths.getSparrowAtlas('static-overlay');
     staticOverlay.animation.addByPrefix('idle', 'static-overlay', 8, true);
     staticOverlay.animation.play('idle');
-
-    // set up the distortion
-    glitchPincushion = new FlxGraphicsShader("", Paths.shader('pincushion'));
-	background.shader = glitchPincushion;
-    background2.shader = glitchPincushion;
-    glitchPincushion.data.distort.value = [1.5];
 
     questionareWiggles = new FlxSprite();
     questionareWiggles.frames = Paths.getSparrowAtlas('wiggles_questionare');

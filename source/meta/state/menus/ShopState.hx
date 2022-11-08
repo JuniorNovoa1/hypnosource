@@ -378,6 +378,7 @@ class ShopState extends MusicBeatState
 		shopHand.setGraphicSize(Std.int(shopHand.width * 0.75));
 		shopHand.antialiasing = true;
 		shopHand.alpha = 0.0001;
+		shopHand.ID = 69;
 		shopGroup.add(shopHand);
 
 		// SHOP CURRENCY ICON
@@ -632,10 +633,22 @@ class ShopState extends MusicBeatState
 			if (inShop)
 			{
 				chordProgression = 0;
-				if (dialouge != null)
+				if (dialouge != null) {
 					currentShopDialogue = dialouge;
-				else
-					currentShopDialogue = itemArray[curItemSelected].songDescription;
+				} else {
+					switch (curItemSelected) {
+						case 0: currentShopDialogue = "Oh now you want it? Make up your mind, you freak.";
+						case 1: currentShopDialogue = "Stupid thing does nothing but make annoying noises. Fuckin' take it.";
+						case 2: currentShopDialogue = "Looks ordinary, no?";
+						case 3: currentShopDialogue = "The fire won't go out no matter what you do";
+						case 4: currentShopDialogue = "This envelope has your name on it.";
+						case 5: currentShopDialogue = "She can't sing...";
+						case 6: currentShopDialogue = "Even monsters sometimes need some time to relax.";
+						case 7: currentShopDialogue = "Dont feel bad for him. Bastard doesnt deserve an ounce of symphathy.";
+						case 8: currentShopDialogue = "I don't want this. But it's funny to make you pay for it.";
+						default: trace('how tf are you on ' + curItemSelected + '???');
+					}
+				}
 			}
 			else
 			{
@@ -755,10 +768,12 @@ class ShopState extends MusicBeatState
 
 			shopGroup.forEach(function(object:FlxObject)
 			{
-				if (!previousX.exists(object))
-					previousX.set(object, object.x);
-				object.x = previousX.get(object) + menuDisplacement;
-				previousX.set(object, object.x - menuDisplacement);
+				if (object.ID != 69) {
+					if (!previousX.exists(object))
+						previousX.set(object, object.x);
+					object.x = previousX.get(object) + menuDisplacement;
+					previousX.set(object, object.x - menuDisplacement);
+				}
 			});
 			freeplayGroup.forEach(function(object:FlxObject)
 			{
@@ -1140,12 +1155,6 @@ class ShopState extends MusicBeatState
 			}
 		}
 
-		if (inShop)
-		{
-			shopHand.x = 425 + ((curItemSelected % 3) * 200);
-			shopHand.y = 100 + (itemArray[curItemSelected].row * 128);
-		}
-
 		// update song stuff
 		Conductor.songPosition += elapsed * 1000;
 		if (FlxG.sound.music != null && Math.abs(FlxG.sound.music.time - Conductor.songPosition) > 20)
@@ -1200,27 +1209,19 @@ class ShopState extends MusicBeatState
 				}
 			});
 
-			switch (itemArray[curItemSelected].name)
-			{
+			switch (curItemSelected) {
+				case 0:
+					if (!FlxG.save.data.cartridgesOwned.contains('LostSilverWeek'))
+						FlxG.save.data.cartridgesOwned.push('LostSilverWeek');
+				case 2:
+					if (!FlxG.save.data.cartridgesOwned.contains('GlitchWeek'))
+						FlxG.save.data.cartridgesOwned.push('GlitchWeek');
+					unlockSongCutscene(itemArray[curItemSelected].songUnlock);
+				case 8:
+					if (!FlxG.save.data.buyVinylFirstTime)
+					    vinylCutscene();	
 				default:
 					unlockSongCutscene(itemArray[curItemSelected].songUnlock);
-				case 'Pokemon Silver':
-					{
-						if (!FlxG.save.data.cartridgesOwned.contains('LostSilverWeek'))
-							FlxG.save.data.cartridgesOwned.push('LostSilverWeek');
-					}
-				case 'Pokemon Red':
-					{
-						if (!FlxG.save.data.cartridgesOwned.contains('GlitchWeek'))
-							FlxG.save.data.cartridgesOwned.push('GlitchWeek');
-						unlockSongCutscene(itemArray[curItemSelected].songUnlock);
-					}
-				case 'Broken Vinyl':
-					{
-						if (!FlxG.save.data.buyVinylFirstTime)
-							FlxG.save.data.buyVinylFirstTime = true;
-						vinylCutscene();
-					}
 			}
 
 			changeShopDialogue('What do you want?');
@@ -1447,6 +1448,38 @@ class ShopState extends MusicBeatState
 					text.alpha = 1.0;
 				}
 			});
+
+			switch (curItemSelected) {
+				case 0:
+					shopHand.x = 425 + (0 * 200);
+					shopHand.y = 100 + (0 * 128);
+				case 1:
+					shopHand.x = 425 + (1 * 200);
+					shopHand.y = 100 + (0 * 128);
+				case 2:
+					shopHand.x = 425 + (2 * 200);
+					shopHand.y = 100 + (0 * 128);
+				case 3:
+					shopHand.x = 425 + (0 * 200);
+					shopHand.y = 100 + (1 * 128);
+				case 4:
+					shopHand.x = 425 + (1 * 200);
+					shopHand.y = 100 + (1 * 128);
+				case 5:
+					shopHand.x = 425 + (2 * 200);
+					shopHand.y = 100 + (1 * 128);
+				case 6:
+					shopHand.x = 425 + (0 * 200);
+					shopHand.y = 100 + (2 * 128);
+				case 7:
+					shopHand.x = 425 + (1 * 200);
+					shopHand.y = 100 + (2 * 128);
+				case 8:
+					shopHand.x = 425 + (2 * 200);
+					shopHand.y = 100 + (2 * 128);
+				default:
+					trace('how tf are you on item ' + curItemSelected + '???');
+			}
 		}
 		else if (!subMenu)
 		{
