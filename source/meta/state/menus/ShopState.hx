@@ -1093,16 +1093,52 @@ class ShopState extends MusicBeatState
 			{
 				if (!inCutscene)
 				{
-					if (left)
+					if (left) {
 						switchShopSel(-1, true);
-					else if (right)
+					} else if (right) {
 						switchShopSel(1, true);
-					else if (down)
+					} else if (down) {
 						switchShopSel(3, true);
-					else if (up)
+					} else if (up) {
 						switchShopSel(-3, true);
-					else if (accept)
-						purchaseItem();
+					} else if (accept) {
+						var name:String;
+						var price:Int;
+						switch (curItemSelected) {
+							case 0:
+								name = 'Pokemon Silver';
+								price = 0;
+							case 1:
+								name = 'GameBoy Advanced SP';
+								price = 300;
+							case 2:
+								name = 'Pokemon Red';
+								price = 288;
+							case 3:
+								name = 'Lit Candle';
+								price = 200;
+							case 4:
+								name = 'Mysterious Letter';
+								price = 666;
+							case 5:
+								name = 'Broken Note';
+								price = 425;
+							case 6:
+								name = 'Pasta Night Mushroom';
+								price = 500;
+							case 7:
+								name = 'Trainer Bow';
+								price = 600;
+							case 8:
+								name = 'Broken Vinyl';
+								price = 999;
+							default:
+								name = 'Pokemon Silver';
+								price = 0;
+								trace('Invalid item selected: ' + curItemSelected);
+						}
+						purchaseItem(name, price);
+					}
 				}
 			}
 			else if (!inShop)
@@ -1162,11 +1198,11 @@ class ShopState extends MusicBeatState
 		CoolUtil.lerpSnap = false;
 	}
 
-	function purchaseItem()
+	function purchaseItem(daName:String, daPrice:Int)
 	{
 		if (!confirmingPurchase
-			&& !FlxG.save.data.itemsPurchased.contains(itemArray[curItemSelected].name)
-			&& FlxG.save.data.money >= itemArray[curItemSelected].price)
+			&& !FlxG.save.data.itemsPurchased.contains(daName)
+			&& FlxG.save.data.money >= daPrice)
 		{
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 			confirmingPurchase = true;
@@ -1182,14 +1218,14 @@ class ShopState extends MusicBeatState
 
 			return;
 		}
-		if (!FlxG.save.data.itemsPurchased.contains(itemArray[curItemSelected].name)
-			&& FlxG.save.data.money >= itemArray[curItemSelected].price)
+		if (!FlxG.save.data.itemsPurchased.contains(daName)
+			&& FlxG.save.data.money >= daPrice)
 		{
 			FlxG.sound.play(Paths.sound('confirmMenu'));
-			FlxG.save.data.money -= itemArray[curItemSelected].price;
-			if (!FlxG.save.data.itemsPurchased.contains(itemArray[curItemSelected].name)
-				&& itemArray[curItemSelected].name != 'Broken Vinyl')
-				FlxG.save.data.itemsPurchased.push(itemArray[curItemSelected].name);
+			FlxG.save.data.money -= daPrice;
+			if (!FlxG.save.data.itemsPurchased.contains(daName)
+				&& daName != 'Broken Vinyl')
+				FlxG.save.data.itemsPurchased.push(daName);
 			currencyText.text = FlxG.save.data.money;
 
 			itemSprites.forEach(function(spr:FlxSprite)
@@ -1213,10 +1249,22 @@ class ShopState extends MusicBeatState
 				case 0:
 					if (!FlxG.save.data.cartridgesOwned.contains('LostSilverWeek'))
 						FlxG.save.data.cartridgesOwned.push('LostSilverWeek');
+				case 1:
+					unlockSongCutscene('Isotope');
 				case 2:
 					if (!FlxG.save.data.cartridgesOwned.contains('GlitchWeek'))
 						FlxG.save.data.cartridgesOwned.push('GlitchWeek');
-					unlockSongCutscene(itemArray[curItemSelected].songUnlock);
+					unlockSongCutscene('Dissension');
+				case 3:
+					unlockSongCutscene('Purin');
+				case 4:
+					unlockSongCutscene('Death-Toll');
+				case 5:
+					unlockSongCutscene('Amusia');
+				case 6:
+					unlockSongCutscene('Pasta-Night');
+				case 7:
+					unlockSongCutscene('Bygone-Purpose');
 				case 8:
 					if (!FlxG.save.data.buyVinylFirstTime)
 					    vinylCutscene();	
@@ -1383,7 +1431,43 @@ class ShopState extends MusicBeatState
 			if (currentShopDialogue != 'What do you want?')
 				changeShopDialogue('What do you want?');
 
-			var postPurchasePrice:Int = Std.int(FlxG.save.data.money - itemArray[curItemSelected].price);
+			var name:String;
+			var price:Int;
+			switch (curItemSelected) {
+				case 0:
+					name = 'Pokemon Silver';
+					price = 0;
+				case 1:
+					name = 'GameBoy Advanced SP';
+					price = 300;
+				case 2:
+					name = 'Pokemon Red';
+					price = 288;
+				case 3:
+					name = 'Lit Candle';
+					price = 200;
+				case 4:
+					name = 'Mysterious Letter';
+					price = 666;
+				case 5:
+					name = 'Broken Note';
+					price = 425;
+				case 6:
+					name = 'Pasta Night Mushroom';
+					price = 500;
+				case 7:
+					name = 'Trainer Bow';
+					price = 600;
+				case 8:
+					name = 'Broken Vinyl';
+					price = 999;
+				default:
+					name = 'Pokemon Silver';
+					price = 0;
+					trace('Invalid item selected: ' + curItemSelected);
+			}
+
+			var postPurchasePrice:Int = Std.int(FlxG.save.data.money - price);
 
 			currencyText.text = FlxG.save.data.money + " > " + postPurchasePrice;
 
@@ -1392,7 +1476,7 @@ class ShopState extends MusicBeatState
 			else
 				currencyText.color = FlxColor.BLACK;
 
-			if (FlxG.save.data.itemsPurchased.contains(itemArray[curItemSelected].name))
+			if (FlxG.save.data.itemsPurchased.contains(name))
 			{
 				currencyText.text = FlxG.save.data.money;
 				currencyText.color = FlxColor.BLACK;
