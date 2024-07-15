@@ -299,47 +299,6 @@ class TitleState extends MusicBeatState
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
 				// {
-				if (FlxG.save.data.notFirstTime == null 
-				|| FlxG.save.data.notFirstTime == false)
-				{
-					FlxG.save.data.notFirstTime = true;
-					FlxG.save.flush();
-				}
-
-				if (FlxG.save.data.ShaderWarning == null)
-					FlxG.save.data.ShaderWarning = true;
-
-				if (FlxG.save.data.ShaderWarningAmount == null)
-					FlxG.save.data.ShaderWarningAmount = 0;
-
-				if (FlxG.save.data.ShaderWarning) {
-					FlxG.save.data.ShaderWarning = false;
-					FlxG.save.flush();
-					Lib.application.window.alert("99% of shaders have been removed,\nThis is because Apple hasn't updated openfl in years.\n\nPort by JuniorNovoa\n\nYou will never see this message again.", 'IMPORTANT ABOUT SHADERS');
-				}
-
-				FlxG.save.data.ShaderWarningAmount += 1;
-				trace('amount of times opened: ' + FlxG.save.data.ShaderWarningAmount);
-
-				if (FlxG.save.data.ShaderWarningAmount == 21)
-					Lib.application.window.alert("21 TIMES!?!?!111\nYOU SHOULD STOP\n\nPort by JuniorNovoa\n\nYou will never see this message again.", 'Half Virgin');
-
-				if (FlxG.save.data.ShaderWarningAmount == 69)
-					Lib.application.window.alert("69 TIMES!?!?!111\nBRO GET OFF OF THIS GAME\n\nPort by JuniorNovoa\n\nYou will never see this message again.", 'VIRGIN');
-				
-				if (FlxG.save.data.ShaderWarningAmount == 91)
-					Lib.application.window.alert("91 TIMES!?!?!111\nGO OUTSIDE DUDE\n\nPort by JuniorNovoa\n\nYou will never see this message again.", 'MEGA VIRGIN');
-
-				if (FlxG.save.data.ShaderWarningAmount == 100) {
-					Lib.application.window.alert("100 TIMES!?!?!1!?!??!!!??!?\nSTOP PLAYING AND GO OUTSIDE NOW.\n\nPort by JuniorNovoa\n\nYou will never play this mod again.", 'ULTIMATE VIRGIN');
-					Sys.exit(0);
-				}
-
-				if (FlxG.save.data.ShaderWarningAmount > 100)
-					Sys.exit(0);
-
-				FlxG.save.flush();
-
 				Main.switchState(this, new MainMenuState());
 				// }
 			});
